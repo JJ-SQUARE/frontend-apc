@@ -6,8 +6,7 @@ import ConfirmarCuenta from './paginas/ConfirmarCuenta';
 import OlvidePassword from './paginas/OlvidePassword';
 import Registrar from './paginas/Registrar';
 
-function App() {
-    
+function App() {   
 
     return (
         <BrowserRouter>

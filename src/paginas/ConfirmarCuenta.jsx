@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import axios from 'axios';
 import Alerta from '../components/Alerta';
+import clienteAxios from '../config/axios';
 
 const ConfirmarCuenta = () => {
     const [cuentaConfirmada, setCuentaConfirmada] = useState(false);
@@ -10,15 +11,17 @@ const ConfirmarCuenta = () => {
 
     const params = useParams();
     const { id } = params;
+    console.log(id);
 
     useEffect(() => {
         const confirmarCuenta = async () =>{
             try {
-                const url = `http://localhost:4000/api/veterinarios/confirmar/${id}`;
-
-                const { data } = await axios(url);
-
-                console.log(data);
+                const url = `veterinarios/confirmar/${id}`;
+                const { data } = await clienteAxios(url);
+                setCuentaConfirmada(true);
+                setAlerta({
+                    msg: data.msg
+                })
             } catch (error) {
                   setAlerta({ 
                       msg: error.response.data.msg, 
@@ -29,7 +32,6 @@ const ConfirmarCuenta = () => {
         confirmarCuenta();
     })
 
- 
     console.log(params);
     return (
         <>
@@ -40,9 +42,18 @@ const ConfirmarCuenta = () => {
                 </h1>
             </div>
             <div className="mt-20 md:mt-5 shadow-lg px-5 py-10 rounded-xl bg-white">
-                {!cargando && <Alerta 
-                    alerta={alerta}
-                />}
+                {!cargando && 
+                    <Alerta 
+                        alerta={alerta}
+                    />}
+
+                    {cuentaConfirmada && (
+                        <Link 
+                            to="/"
+                            className="block text-center text-gray-500 my-5 hover:text-gray-700 font-bold" >Iniciar sesión
+                        </Link>
+                        
+                    )}
             </div>
     
     
